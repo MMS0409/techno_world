@@ -5,6 +5,19 @@ class BasketScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Placeholder();
+    return Scaffold(
+        appBar: AppBar(
+          title: const Text('Basket'),
+        ),
+        body: const Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Center(
+                child: Text("User Authenticated",style: TextStyle(color: Colors.black),),
+              ),
+            ],
+          ),
+        ));
   }
 }

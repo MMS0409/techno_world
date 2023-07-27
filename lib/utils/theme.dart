@@ -15,19 +15,23 @@ class AppTheme {
   );
 
   static ThemeData myTheme = ThemeData(
-    scaffoldBackgroundColor: AppColors.c_111015,
-    bottomNavigationBarTheme: const BottomNavigationBarThemeData(
+    bottomNavigationBarTheme: BottomNavigationBarThemeData(
       type: BottomNavigationBarType.fixed,
-      selectedIconTheme: IconThemeData(
-        size: 30
-      ),
-      backgroundColor: Colors.yellow,
-      selectedItemColor: Colors.black,
-      unselectedItemColor: Colors.black54,
+      selectedIconTheme: IconThemeData(size: 30.sp),
+      backgroundColor: AppColors.c_111015,
+      selectedItemColor: Colors.yellow,
+      unselectedItemColor: Colors.white,
+      showSelectedLabels: true,
+      showUnselectedLabels: false,
+      selectedLabelStyle: const TextStyle(color: Colors.white)
     ),
     appBarTheme: AppBarTheme(
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.only(bottomRight: Radius.circular(20),bottomLeft: Radius.circular(20))
+      ),
       centerTitle: true,
       titleTextStyle: const TextStyle(
+        fontSize: 30,
       fontWeight: FontWeight.w600,
       color: Colors.white,
       fontFamily: "Montserrat"

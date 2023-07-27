@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:techno_world/utils/colors/app_colors.dart';
 import 'package:techno_world/utils/images/app_images.dart';
 
 import '../app/app.dart';
@@ -36,6 +37,7 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: AppColors.c_111015,
       body: Padding(
         padding: EdgeInsets.all(10.r),
         child: Center(

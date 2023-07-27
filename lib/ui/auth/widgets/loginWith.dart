@@ -15,7 +15,7 @@ class LoginWith extends StatelessWidget {
         height: 50.h,
         width: 150.w,
         decoration: BoxDecoration(
-            color: Colors.white,
+            color: Colors.black,
             borderRadius: BorderRadius.circular(10.r)
         ),
         child: Padding(
@@ -27,7 +27,7 @@ class LoginWith extends StatelessWidget {
               Text(title, style: TextStyle(
                   fontSize: 20.sp,
                   fontWeight: FontWeight.w600,
-                  color: Colors.black,
+                  color: Colors.white,
                   fontFamily: "Montserrat"),),
             ],
           ),

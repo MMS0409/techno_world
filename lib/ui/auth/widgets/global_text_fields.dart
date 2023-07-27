@@ -45,6 +45,9 @@ class GlobalTextField extends StatelessWidget {
             fontFamily: "Montserrat"),
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(10.r),
+          borderSide: const BorderSide(
+            color: Colors.grey,
+          )
         ),
         disabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(10.r),
@@ -57,7 +60,7 @@ class GlobalTextField extends StatelessWidget {
           borderRadius: BorderRadius.circular(10.r),
           borderSide: BorderSide(
             width: 1,
-            color: AppColors.white,
+            color: AppColors.c_111015,
           ),
         ),
         errorBorder: OutlineInputBorder(
