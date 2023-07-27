@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:techno_world/ui/basket/basket_screen.dart';
 import 'package:techno_world/ui/favorite/favorite_screen.dart';
 import 'package:techno_world/ui/profile/profile_screen.dart';
+import 'package:techno_world/utils/colors/app_colors.dart';
 import '../home/home_screen.dart';
 
 class TabBox extends StatefulWidget {
@@ -25,25 +26,33 @@ class _TabBoxState extends State<TabBox> {
     super.initState();
   }
 
+  void _onItemTapped(int index) {
+    setState(() {
+      currentTabIndex = index;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: screens[currentTabIndex],
-      bottomNavigationBar: BottomNavigationBar(
-        currentIndex: currentTabIndex,
-        onTap: (index){
-          setState(() {
-            currentTabIndex = index;
-          });
-        },
-        type: BottomNavigationBarType.fixed,
-        items: const [
-          BottomNavigationBarItem(icon: Icon(Icons.home),label: ''),
-          BottomNavigationBarItem(icon: Icon(Icons.favorite),label: ''),
-          BottomNavigationBarItem(icon: Icon(Icons.shopping_cart),label: ''),
-          BottomNavigationBarItem(icon: Icon(Icons.person),label: ''),
-        ],
-      ),
+      bottomNavigationBar: ClipRRect(
+        borderRadius: const BorderRadius.only(
+          topRight: Radius.circular(24),
+          topLeft: Radius.circular(24),
+        ),
+        child: BottomNavigationBar(
+          backgroundColor: AppColors.c_111015,
+          items: const [
+            BottomNavigationBarItem(icon: Icon(Icons.home), label: '',),
+            BottomNavigationBarItem(icon: Icon(Icons.favorite), label: '',),
+            BottomNavigationBarItem(icon: Icon(Icons.shopping_cart), label: '',),
+            BottomNavigationBarItem(icon: Icon(Icons.person), label: '',),
+          ],
+          currentIndex: currentTabIndex,
+          onTap: _onItemTapped,
+        ),
+      )
     );
   }
 }

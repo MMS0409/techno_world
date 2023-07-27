@@ -9,22 +9,16 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(),
-        body: Center(
+        appBar: AppBar(
+          title: const Text('Home'),
+        ),
+        body: const Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              const Center(
-                child: Text("User Authenticated",style: TextStyle(color: Colors.white),),
+              Center(
+                child: Text("User Authenticated",style: TextStyle(color: Colors.black),),
               ),
-              TextButton(
-                style: const ButtonStyle(
-                  backgroundColor: MaterialStatePropertyAll<Color>(Colors.yellow)
-                ),
-                  onPressed: () {
-                    context.read<AuthProvider>().logOut(context);
-                  },
-                  child: const Text("Log Out",style: TextStyle(color: Colors.black),))
             ],
           ),
         ));
