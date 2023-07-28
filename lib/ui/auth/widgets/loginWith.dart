@@ -3,14 +3,16 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:zoom_tap_animation/zoom_tap_animation.dart';
 
 class LoginWith extends StatelessWidget {
-  const LoginWith({super.key, required this.title, required this.image});
+  const LoginWith({super.key, required this.title, required this.image, required this.voidCallback});
 
   final String title;
   final String image;
+  final VoidCallback voidCallback;
 
   @override
   Widget build(BuildContext context) {
     return ZoomTapAnimation(
+      onTap: voidCallback,
       child: Container(
         height: 50.h,
         width: 150.w,

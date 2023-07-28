@@ -15,9 +15,6 @@ class App extends StatelessWidget {
       body: StreamBuilder<User?>(
         stream: context.read<AuthProvider>().listenAuthState(),
         builder: (BuildContext context, AsyncSnapshot<User?> snapshot) {
-          // if (snapshot.connectionState == ConnectionState.waiting) {
-          //   return const Center(child: CircularProgressIndicator());
-          // }
           if (snapshot.hasError) {
             return Center(child: Text(snapshot.error.toString()));
           } else if (snapshot.data == null) {

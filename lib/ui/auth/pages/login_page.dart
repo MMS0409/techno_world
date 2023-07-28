@@ -31,22 +31,25 @@ class LoginPage extends StatelessWidget {
               GlobalTextField(
                 hintText: "Password",
                 keyboardType: TextInputType.emailAddress,
-                textInputAction: TextInputAction.next,
+                textInputAction: TextInputAction.done,
                 textAlign: TextAlign.start,
+                obscureText: true,
                 controller: context.read<AuthProvider>().passwordController,
               ),
               SizedBox(height: 24.h),
               GlobalButton(
                   title: "Log In",
                   onTap: () {
-                    context.read<AuthProvider>().logIn(context);
+                    context.read<AuthProvider>().logInUser(context);
                   }),
               SizedBox(height: 30.h,),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  LoginWith(title: 'Google', image: AppImages.google),
-                  LoginWith(title: 'Facebook', image: AppImages.facebook),
+                  LoginWith(title: 'Google', image: AppImages.google, voidCallback: () {
+                    context.read<AuthProvider>().signInWithGoogle(context);
+                  },),
+                  LoginWith(title: 'Facebook', image: AppImages.facebook, voidCallback: () {},),
                 ],
               )
             ],

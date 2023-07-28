@@ -42,8 +42,9 @@ class SignUpScreen extends StatelessWidget {
               GlobalTextField(
                 hintText: "Password",
                 keyboardType: TextInputType.emailAddress,
-                textInputAction: TextInputAction.next,
+                textInputAction: TextInputAction.done,
                 textAlign: TextAlign.start,
+                obscureText: true,
                 controller: context.read<AuthProvider>().passwordController,
               ),
               SizedBox(height: 24.h),
@@ -54,8 +55,10 @@ class SignUpScreen extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  LoginWith(title: 'Google', image: AppImages.google),
-                  LoginWith(title: 'Facebook', image: AppImages.facebook),
+                  LoginWith(title: 'Google', image: AppImages.google, voidCallback: () {
+                    context.read<AuthProvider>().signInWithGoogle(context);
+                  },),
+                  LoginWith(title: 'Facebook', image: AppImages.facebook, voidCallback: () {},),
                 ],
               )
             ],

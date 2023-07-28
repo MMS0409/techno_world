@@ -1,9 +1,10 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../utils/colors/app_colors.dart';
 
-class GlobalTextField extends StatelessWidget {
+class GlobalTextField extends StatefulWidget {
   const GlobalTextField({
     Key? key,
     required this.hintText,
@@ -22,6 +23,12 @@ class GlobalTextField extends StatelessWidget {
   final TextEditingController controller;
 
   @override
+  State<GlobalTextField> createState() => _GlobalTextFieldState();
+}
+
+class _GlobalTextFieldState extends State<GlobalTextField> {
+  bool isSee = false;
+  @override
   Widget build(BuildContext context) {
     return TextField(
       style: TextStyle(
@@ -29,15 +36,23 @@ class GlobalTextField extends StatelessWidget {
           fontWeight: FontWeight.w600,
           color: AppColors.c_0C1A30,
           fontFamily: "Montserrat"),
-      textAlign: textAlign,
-      textInputAction: textInputAction,
-      keyboardType: keyboardType,
-      obscureText: obscureText,
-      controller: controller,
+      textAlign: widget.textAlign,
+      textInputAction: widget.textInputAction,
+      keyboardType: widget.keyboardType,
+      obscureText: !isSee&&widget.obscureText,
+      controller: widget.controller,
       decoration: InputDecoration(
+        suffixIcon: widget.obscureText?IconButton(
+          splashRadius: 1,
+            onPressed: (){
+          setState(() {
+            isSee=!isSee;
+          });
+        }, icon: Icon(isSee?Icons.remove_red_eye:CupertinoIcons.eye_slash_fill),color: AppColors.c_111015,)
+            :Icon(widget.hintText=='Username'?Icons.person:Icons.email_rounded,color: AppColors.c_111015,),
         filled: true,
         fillColor: AppColors.white,
-        hintText: hintText,
+        hintText: widget.hintText,
         hintStyle: TextStyle(
             fontSize: 16.sp,
             fontWeight: FontWeight.w600,
