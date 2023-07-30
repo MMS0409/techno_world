@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:techno_world/ui/home/widgets/button.dart';
+import 'package:techno_world/utils/colors/app_colors.dart';
 import 'package:techno_world/utils/images/app_images.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -37,6 +39,7 @@ class HomeScreen extends StatelessWidget {
             SizedBox(
               height: 20.h,
             ),
+            NamedCounteiner(title: 'Categories'),
             SizedBox(
               height: 220.h,
               child: ListView(
@@ -44,7 +47,7 @@ class HomeScreen extends StatelessWidget {
                 scrollDirection: Axis.horizontal,
                 children: [
                   ...List.generate(
-                    8,
+                    images.length,
                     (index) => Stack(
                       alignment: Alignment.center,
                       children: [
@@ -99,6 +102,27 @@ class HomeScreen extends StatelessWidget {
                     ),
                   )
                 ],
+              ),
+            ),
+            SizedBox(
+              height: 28.h,
+            ),
+            NamedCounteiner(title: 'See All'),
+            Expanded(
+              child: GridView.builder(
+                itemCount: images.length,
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 2,
+                  mainAxisSpacing: 20,
+                  crossAxisSpacing: 20,
+                  childAspectRatio: 0.8,
+                ),
+                itemBuilder: (context, index) => Container(
+                  color: Colors.grey.shade900,
+                  child: Image.asset(
+                    images[index],
+                  ),
+                ),
               ),
             ),
           ]),
