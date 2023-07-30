@@ -15,7 +15,7 @@ class LoginWith extends StatelessWidget {
       onTap: voidCallback,
       child: Container(
         height: 50.h,
-        width: 150.w,
+        width: 160.w,
         decoration: BoxDecoration(
             color: Colors.black,
             borderRadius: BorderRadius.circular(10.r)
