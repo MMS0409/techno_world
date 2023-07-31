@@ -1,68 +1,75 @@
-class OrderModel {
+class ProductModel {
   int count;
-  int totalPrice;
-  String orderId;
+  int price;
+  List<dynamic> productImages;
+  String categoryId;
   String productId;
-  String userId;
-  String orderStatus;
-  String createdAt;
   String productName;
+  String description;
+  String createdAt;
+  String currency;
 
-  OrderModel({
+  ProductModel({
     required this.count,
-    required this.totalPrice,
-    required this.orderId,
+    required this.price,
+    required this.productImages,
+    required this.categoryId,
     required this.productId,
-    required this.userId,
-    required this.orderStatus,
-    required this.createdAt,
     required this.productName,
+    required this.description,
+    required this.createdAt,
+    required this.currency,
   });
 
-  OrderModel copWith({
+  ProductModel copyWith({
     int? count,
-    int? totalPrice,
-    String? orderId,
+    int? price,
+    List<dynamic>? productImages,
+    String? categoryId,
     String? productId,
-    String? userId,
-    String? orderStatus,
-    String? createdAt,
     String? productName,
-  }) =>
-      OrderModel(
-        count: count ?? this.count,
-        totalPrice: totalPrice ?? this.totalPrice,
-        orderId: orderId ?? this.orderId,
-        productId: productId ?? this.productId,
-        productName: productName ?? this.productName,
-        userId: userId ?? this.userId,
-        orderStatus: orderStatus ?? this.orderStatus,
-        createdAt: createdAt ?? this.createdAt,
-      );
+    String? description,
+    String? createdAt,
+    String? currency,
+  }) {
+    return ProductModel(
+      count: count ?? this.count,
+      price: price ?? this.price,
+      productImages: productImages ?? this.productImages,
+      categoryId: categoryId ?? this.categoryId,
+      productId: productId ?? this.productId,
+      productName: productName ?? this.productName,
+      description: description ?? this.description,
+      createdAt: createdAt ?? this.createdAt,
+      currency: currency ?? this.currency,
+    );
+  }
 
-  factory OrderModel.fromJson(Map<String, dynamic> jsonData) {
-    return OrderModel(
+  factory ProductModel.fromJson(Map<String, dynamic> jsonData) {
+    return ProductModel(
       count: jsonData['count'] as int? ?? 0,
-      totalPrice: jsonData['totalPrice'] as int? ?? 0,
-      orderId: jsonData['orderId'] as String? ?? '',
-      productName: jsonData['productName'] as String? ?? '',
+      price: jsonData['price'] as int? ?? 0,
+      productImages: (jsonData['productImages'] as List<dynamic>? ?? []),
+      categoryId: jsonData['categoryId'] as String? ?? '',
       productId: jsonData['productId'] as String? ?? '',
-      userId: jsonData['userId'] as String? ?? '',
-      orderStatus: jsonData['orderStatus'] as String? ?? '',
+      productName: jsonData['productName'] as String? ?? '',
+      description: jsonData['description'] as String? ?? '',
       createdAt: jsonData['createdAt'] as String? ?? '',
+      currency: jsonData['currency'] as String? ?? '',
     );
   }
 
   Map<String, dynamic> toJson() {
     return {
       'count': count,
-      'totalPrice': totalPrice,
-      'orderId': orderId,
+      'price': price,
+      'productImages': productImages,
+      'categoryId': categoryId,
       'productId': productId,
-      'userId': userId,
-      'orderStatus': orderStatus,
-      'createdAt': createdAt,
       'productName': productName,
+      'description': description,
+      'createdAt': createdAt,
+      'currency': currency,
     };
   }
 
@@ -70,12 +77,14 @@ class OrderModel {
   String toString() {
     return '''
       count: $count,
-      totalPrice: $totalPrice,
-      orderId: $orderId,
+      price: $price,
+      productImages: $productImages,
+      categoryId: $categoryId,
       productId: $productId,
-      userId: $userId,
-      orderStatus: $orderStatus,
+      productName: $productName,
+      description: $description,
       createdAt: $createdAt,
+      currency: $currency
       ''';
   }
 }
