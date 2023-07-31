@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:techno_world/ui/home/add_screen.dart';
 import 'package:techno_world/ui/home/widgets/button.dart';
 import 'package:techno_world/utils/images/app_images.dart';
 
@@ -12,6 +13,10 @@ class HomeScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Groceries'),
+        actions: [IconButton(onPressed: () {
+         Navigator.push(context, MaterialPageRoute(builder: (context) => AddScreen()));
+         
+        }, icon: Icon(Icons.add))],
       ),
       body: CustomScrollView(
         slivers: [

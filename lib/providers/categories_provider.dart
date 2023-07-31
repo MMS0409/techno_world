@@ -10,6 +10,8 @@ class CategoryProvider with ChangeNotifier {
 
   final CategoryService categoryService;
 
+  final TextEditingController nameController = TextEditingController();
+
   Future<void> addCategory({
     required BuildContext context,
     required CategoryModel categoryModel,
