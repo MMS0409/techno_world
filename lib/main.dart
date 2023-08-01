@@ -6,12 +6,11 @@ import 'package:techno_world/data/firebase/auth_service.dart';
 import 'package:techno_world/data/firebase/category_service.dart';
 import 'package:techno_world/data/firebase/products_service.dart';
 import 'package:techno_world/providers/auth_provider.dart';
-import 'package:techno_world/providers/categories_provider.dart';
-import 'package:techno_world/providers/product_provider.dart';
 import 'package:techno_world/providers/profiles_provider.dart';
 import 'package:techno_world/splash/splash_screen.dart';
 import 'package:techno_world/utils/theme.dart';
 
+import 'data/firebase/category_service.dart';
 import 'data/firebase/profile_service.dart';
 
 Future<void> main() async {
@@ -38,7 +37,6 @@ Future<void> main() async {
               ProfileProvider(profileService: ProfileService()),
           lazy: true,
         ),
-
       ],
       child: const MyApp(),
     ),

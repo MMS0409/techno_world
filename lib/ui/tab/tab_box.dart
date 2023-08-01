@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:techno_world/ui/basket/basket_screen.dart';
-import 'package:techno_world/ui/favorite/favorite_screen.dart';
+import 'package:techno_world/ui/category//category_screen.dart';
 import 'package:techno_world/ui/profile/profile_screen.dart';
 import 'package:techno_world/utils/colors/app_colors.dart';
 import '../home/home_screen.dart';
@@ -20,7 +20,7 @@ class _TabBoxState extends State<TabBox> {
   @override
   void initState() {
     screens.add(const HomeScreen());
-    screens.add(const FavoriteScreen());
+    screens.add(const CategoryScreen());
     screens.add(const BasketScreen());
     screens.add(const ProfileScreen());
     super.initState();
@@ -45,7 +45,7 @@ class _TabBoxState extends State<TabBox> {
           backgroundColor: AppColors.c_111015,
           items: const [
             BottomNavigationBarItem(icon: Icon(Icons.home), label: '',),
-            BottomNavigationBarItem(icon: Icon(Icons.favorite), label: '',),
+            BottomNavigationBarItem(icon: Icon(Icons.category), label: '',),
             BottomNavigationBarItem(icon: Icon(Icons.shopping_cart), label: '',),
             BottomNavigationBarItem(icon: Icon(Icons.person), label: '',),
           ],

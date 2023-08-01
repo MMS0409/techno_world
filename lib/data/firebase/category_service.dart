@@ -1,6 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:techno_world/data/models/category/category_model.dart';
-import 'package:techno_world/data/models/universal_data.dart';
 
 class CategoryService {
   Future<UniversalData> addCategory(

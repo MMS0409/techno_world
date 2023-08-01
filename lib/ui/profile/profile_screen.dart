@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 
 import '../../providers/auth_provider.dart';
@@ -18,15 +19,33 @@ class ProfileScreen extends StatelessWidget {
         body: Center(
           child: Column(
             children: [
-              ListTile(title: Text(user?.displayName ?? ''),),
-              TextButton(
-                  style: const ButtonStyle(
-                      backgroundColor: MaterialStatePropertyAll<Color>(Colors.yellow)
+              SizedBox(height: 20.h,),
+              ClipRRect(
+                borderRadius: BorderRadius.circular(100),
+                  child: Image.network(user?.photoURL ?? '')),
+              SizedBox(height: 20.h,),
+              Center(
+                child: Text(user?.displayName ?? '',style: const TextStyle(fontSize: 20,fontWeight: FontWeight.w700),),
+              ),
+              ListTile(
+                  onTap: () {
+                  },
+                  title: const Text(
+                    "Edit Profile",
+                    style: TextStyle(color: Colors.black),
                   ),
-                  onPressed: () {
+                trailing: const Icon(Icons.edit),
+              ),
+              ListTile(
+                  onTap: () {
                     context.read<AuthProvider>().logOutUser(context);
                   },
-                  child: const Text("Log Out",style: TextStyle(color: Colors.black),)),
+                  title: const Text(
+                    "Log Out",
+                    style: TextStyle(color: Colors.black),
+                  ),
+                trailing: const Icon(Icons.exit_to_app_outlined,color: Colors.red,),
+              ),
             ],
           ),
         ));

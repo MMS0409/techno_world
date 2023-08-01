@@ -1,7 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:techno_world/utils/colors/app_colors.dart';
-
 
 void showErrorMessage({
   required String message,
