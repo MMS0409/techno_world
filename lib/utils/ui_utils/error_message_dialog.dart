@@ -1,8 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-import '../colors/app_colors.dart';
-
 void showErrorMessage({
   required String message,
   required BuildContext context,

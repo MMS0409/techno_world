@@ -1,8 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-import '../models/category/category_model.dart';
-import '../models/universal_data.dart';
-
 class CategoryService {
   Future<UniversalData> addCategory(
       {required CategoryModel categoryModel}) async {
