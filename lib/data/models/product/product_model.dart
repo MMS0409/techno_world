@@ -87,3 +87,4 @@ class ProductModel {
       currency: $currency
       ''';
   }
+}

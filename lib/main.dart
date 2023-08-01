@@ -6,11 +6,12 @@ import 'package:techno_world/data/firebase/auth_service.dart';
 import 'package:techno_world/data/firebase/category_service.dart';
 import 'package:techno_world/data/firebase/products_service.dart';
 import 'package:techno_world/providers/auth_provider.dart';
+import 'package:techno_world/providers/categories_provider.dart';
+import 'package:techno_world/providers/product_provider.dart';
 import 'package:techno_world/providers/profiles_provider.dart';
 import 'package:techno_world/splash/splash_screen.dart';
+import 'package:techno_world/ui/route/routes.dart';
 import 'package:techno_world/utils/theme.dart';
-
-import 'data/firebase/category_service.dart';
 import 'data/firebase/profile_service.dart';
 
 Future<void> main() async {
@@ -54,12 +55,13 @@ class MyApp extends StatelessWidget {
       splitScreenMode: true,
       builder: (context, child) {
         return MaterialApp(
+          onGenerateRoute: AppRoute.generateRoute,
           debugShowCheckedModeBanner: false,
-          home: child,
           theme: AppTheme.myTheme,
+          home: const SplashScreen(),
+
         );
       },
-      child: const SplashScreen(),
     );
   }
 }
