@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 
 import '../data/firebase/auth_service.dart';
 import '../data/models/universal_data.dart';
+import '../utils/ui_utils/loading_dialog.dart';
 
 class AuthProvider with ChangeNotifier {
   AuthProvider({required this.firebaseServices});
@@ -29,10 +30,13 @@ class AuthProvider with ChangeNotifier {
   Future<void> signUpUser(BuildContext context) async {
     String email = emailController.text;
     String password = passwordController.text;
-    notify(true);
+    showLoading(context: context);
     UniversalData universalData =
     await firebaseServices.signUpUser(email: email, password: password);
-    notify(false);
+    if (context.mounted) {
+      hideLoading(dialogContext: context);
+    }
+
 
     if (universalData.error.isEmpty) {
       if (context.mounted) {
@@ -50,10 +54,13 @@ class AuthProvider with ChangeNotifier {
   Future<void> logInUser(BuildContext context) async {
     String email = emailController.text;
     String password = passwordController.text;
-    notify(true);
+    showLoading(context: context);
     UniversalData universalData =
     await firebaseServices.loginUser(email: email, password: password);
-    notify(false);
+    if (context.mounted) {
+      hideLoading(dialogContext: context);
+    }
+
 
     if (universalData.error.isEmpty) {
       if (context.mounted) {
@@ -67,9 +74,12 @@ class AuthProvider with ChangeNotifier {
   }
 
   Future<void> logOutUser(BuildContext context) async {
-    notify(true);
+    showLoading(context: context);
     UniversalData universalData = await firebaseServices.logOutUser();
-    notify(false);
+    if (context.mounted) {
+      hideLoading(dialogContext: context);
+    }
+
     if (universalData.error.isEmpty) {
       if (context.mounted) {
         showMessage(context, universalData.data as String);
@@ -82,9 +92,12 @@ class AuthProvider with ChangeNotifier {
   }
 
   Future<void> signInWithGoogle(BuildContext context) async {
-    notify(true);
+    showLoading(context: context);
     UniversalData universalData = await firebaseServices.signInWithGoogle();
-    notify(false);
+    if (context.mounted) {
+      hideLoading(dialogContext: context);
+    }
+
 
     if (universalData.error.isEmpty) {
       if (context.mounted) {
@@ -95,11 +108,6 @@ class AuthProvider with ChangeNotifier {
         showMessage(context, universalData.error);
       }
     }
-  }
-
-  notify(bool value) {
-    isLoading = value;
-    notifyListeners();
   }
 
   showMessage(BuildContext context, String error) {

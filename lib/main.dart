@@ -4,10 +4,12 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:techno_world/data/firebase/auth_service.dart';
 import 'package:techno_world/providers/auth_provider.dart';
+import 'package:techno_world/providers/category_provider.dart';
 import 'package:techno_world/providers/profiles_provider.dart';
 import 'package:techno_world/splash/splash_screen.dart';
 import 'package:techno_world/utils/theme.dart';
 
+import 'data/firebase/category_service.dart';
 import 'data/firebase/profile_service.dart';
 
 Future<void> main() async {
@@ -23,6 +25,11 @@ Future<void> main() async {
         ChangeNotifierProvider(
           create: (context) =>
               ProfileProvider(profileService: ProfileService()),
+          lazy: true,
+        ),
+        ChangeNotifierProvider(
+          create: (context) =>
+              CategoryProvider(categoryService: CategoryService()),
           lazy: true,
         ),
       ],
