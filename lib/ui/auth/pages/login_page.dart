@@ -26,7 +26,7 @@ class LoginPage extends StatelessWidget {
                   keyboardType: TextInputType.emailAddress,
                   textInputAction: TextInputAction.next,
                   textAlign: TextAlign.start,
-                  controller: context.read<AuthProvider>().emailController),
+                  controller: context.read<AuthProvider>().emailController, maxlines: 1,),
               SizedBox(height: 24.h),
               GlobalTextField(
                 hintText: "Password",
@@ -34,7 +34,7 @@ class LoginPage extends StatelessWidget {
                 textInputAction: TextInputAction.done,
                 textAlign: TextAlign.start,
                 obscureText: true,
-                controller: context.read<AuthProvider>().passwordController,
+                controller: context.read<AuthProvider>().passwordController, maxlines: 1,
               ),
               SizedBox(height: 24.h),
               GlobalButton(

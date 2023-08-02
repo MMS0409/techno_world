@@ -15,6 +15,7 @@ class ProfileService {
     }
   }
 
+
   Future<UniversalData> updateUserImage({
     required String imagePath,
   }) async {
@@ -56,4 +57,6 @@ class ProfileService {
       return UniversalData(error: error.toString());
     }
   }
+
+
 }

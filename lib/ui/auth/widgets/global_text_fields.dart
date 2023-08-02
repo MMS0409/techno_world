@@ -14,7 +14,7 @@ class GlobalTextField extends StatefulWidget {
     this.obscureText = false,
     required this.controller,
     this.icon,
-    this.maxlines = 1,
+    required this.maxlines,
   }) : super(key: key);
 
   final String hintText;
