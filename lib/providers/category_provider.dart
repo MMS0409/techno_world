@@ -1,9 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 
 import '../data/firebase/category_service.dart';
 import '../data/models/category/category_model.dart';
 import '../data/models/universal_data.dart';
+import '../data/upload_service.dart';
 import '../utils/ui_utils/loading_dialog.dart';
 
 class CategoryProvider with ChangeNotifier {
@@ -11,43 +13,76 @@ class CategoryProvider with ChangeNotifier {
 
   final CategoryService categoryService;
 
-  Future<void> addCategory({
-    required BuildContext context,
-    required CategoryModel categoryModel,
-  }) async {
-    showLoading(context: context);
-    UniversalData universalData = await categoryService.addCategory(categoryModel: categoryModel);
-    if (context.mounted) {
-      hideLoading(dialogContext: context);
-    }
-    if (universalData.error.isEmpty) {
+  TextEditingController categoryNameController = TextEditingController();
+  TextEditingController categoryDescController = TextEditingController();
+  String categoryUrl = "";
+
+  Future<void> addCategory({required BuildContext context}) async {
+    String name = categoryNameController.text;
+    String categoryDesc = categoryDescController.text;
+
+    if (name.isNotEmpty && categoryDesc.isNotEmpty && categoryUrl.isNotEmpty) {
+      CategoryModel categoryModel = CategoryModel(
+        categoryId: "",
+        categoryName: name,
+        description: categoryDesc,
+        imageUrl: categoryUrl,
+        createdAt: DateTime.now().toString(),
+      );
+      showLoading(context: context);
+      UniversalData universalData =
+          await categoryService.addCategory(categoryModel: categoryModel);
       if (context.mounted) {
-        showMessage(context, universalData.data as String);
+        hideLoading(dialogContext: context);
+      }
+      if (universalData.error.isEmpty) {
+        if (context.mounted) {
+          showMessage(context, universalData.data as String);
+          clearTexts();
+          Navigator.pop(context);
+        }
+      } else {
+        if (context.mounted) {
+          showMessage(context, universalData.error);
+        }
       }
     } else {
-      if (context.mounted) {
-        showMessage(context, universalData.error);
-      }
+      showMessage(context, "Maydonlar to'liq emas!!!");
     }
   }
 
   Future<void> updateCategory({
     required BuildContext context,
-    required CategoryModel categoryModel,
+    required CategoryModel currentCategory,
   }) async {
-    showLoading(context: context);
-    UniversalData universalData =
-        await categoryService.updateCategory(categoryModel: categoryModel);
-    if (context.mounted) {
-      hideLoading(dialogContext: context);
-    }
-    if (universalData.error.isEmpty) {
+    String name = categoryNameController.text;
+    String categoryDesc = categoryDescController.text;
+
+    if (categoryUrl.isEmpty) categoryUrl = currentCategory.imageUrl;
+
+    if (name.isNotEmpty && categoryDesc.isNotEmpty && categoryUrl.isNotEmpty) {
+      showLoading(context: context);
+      UniversalData universalData = await categoryService.updateCategory(
+          categoryModel: CategoryModel(
+        categoryId: currentCategory.categoryId,
+        createdAt: currentCategory.createdAt,
+        categoryName: categoryNameController.text,
+        description: categoryDescController.text,
+        imageUrl: categoryUrl,
+      ));
       if (context.mounted) {
-        showMessage(context, universalData.data as String);
+        hideLoading(dialogContext: context);
       }
-    } else {
-      if (context.mounted) {
-        showMessage(context, universalData.error);
+      if (universalData.error.isEmpty) {
+        if (context.mounted) {
+          showMessage(context, universalData.data as String);
+          clearTexts();
+          Navigator.pop(context);
+        }
+      } else {
+        if (context.mounted) {
+          showMessage(context, universalData.error);
+        }
       }
     }
   }
@@ -73,6 +108,25 @@ class CategoryProvider with ChangeNotifier {
     }
   }
 
+  Future<void> uploadCategoryImage(
+    BuildContext context,
+    XFile xFile,
+  ) async {
+    showLoading(context: context);
+    UniversalData data = await FileUploader.imageUploader(xFile);
+    if (context.mounted) {
+      hideLoading(dialogContext: context);
+    }
+    if (data.error.isEmpty) {
+      categoryUrl = data.data as String;
+      notifyListeners();
+    } else {
+      if (context.mounted) {
+        showMessage(context, data.error);
+      }
+    }
+  }
+
   Stream<List<CategoryModel>> getCategories() =>
       FirebaseFirestore.instance.collection("categories").snapshots().map(
             (event1) => event1.docs
@@ -83,5 +137,19 @@ class CategoryProvider with ChangeNotifier {
   showMessage(BuildContext context, String error) {
     ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(error)));
     notifyListeners();
+  }
+
+  setInitialValues(CategoryModel categoryModel) {
+    categoryNameController =
+        TextEditingController(text: categoryModel.categoryName);
+    categoryDescController =
+        TextEditingController(text: categoryModel.description);
+    notifyListeners();
+  }
+
+  clearTexts() {
+    categoryDescController.clear();
+    categoryNameController.clear();
+    categoryUrl = "";
   }
 }

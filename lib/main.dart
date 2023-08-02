@@ -4,14 +4,14 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:techno_world/data/firebase/auth_service.dart';
 import 'package:techno_world/data/firebase/category_service.dart';
-import 'package:techno_world/data/firebase/products_service.dart';
 import 'package:techno_world/providers/auth_provider.dart';
-import 'package:techno_world/providers/categories_provider.dart';
-import 'package:techno_world/providers/product_provider.dart';
+import 'package:techno_world/providers/category_provider.dart';
+import 'package:techno_world/providers/products_provider.dart';
 import 'package:techno_world/providers/profiles_provider.dart';
 import 'package:techno_world/splash/splash_screen.dart';
 import 'package:techno_world/ui/route/routes.dart';
 import 'package:techno_world/utils/theme.dart';
+import 'data/firebase/prodycts_service.dart';
 import 'data/firebase/profile_service.dart';
 
 Future<void> main() async {
@@ -30,7 +30,7 @@ Future<void> main() async {
           lazy: true,
         ),
         ChangeNotifierProvider(
-          create: (context) => ProductsProvider(ProductService()),
+          create: (context) => ProductsProvider(productsService: ProductsService()),
           lazy: true,
         ),
         ChangeNotifierProvider(
@@ -43,7 +43,6 @@ Future<void> main() async {
     ),
   );
 }
-
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
 

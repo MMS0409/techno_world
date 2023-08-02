@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
@@ -14,13 +15,33 @@ class AuthService {
         email: email,
         password: password,
       );
+      
       return UniversalData(data: userCredential);
     } on FirebaseAuthException catch (e) {
       return UniversalData(error: e.code);
     } catch (error) {
       return UniversalData(error: error.toString());
     }
+    
   }
+  Future<UniversalData> signtoFirestore({
+    required String email,
+  }) async {
+    try {
+      FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
+    User? user=  FirebaseAuth.instance.currentUser;
+    CollectionReference ref = firebaseFirestore.collection('users');
+    ref.doc(user!.uid).set({'email': email, });
+      return UniversalData(data: 'Added');
+    } on FirebaseAuthException catch (e) {
+      return UniversalData(error: e.code);
+    } catch (error) {
+      return UniversalData(error: error.toString());
+    }
+    
+  }
+
+ 
 
   Future<UniversalData> loginUser({
     required String email,
@@ -52,14 +73,11 @@ class AuthService {
   }
 
   Future<UniversalData> signInWithGoogle() async {
-    // Trigger the authentication flow
     final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
 
-    // Obtain the auth details from the request
     final GoogleSignInAuthentication? googleAuth =
         await googleUser?.authentication;
 
-    // Create a new credential
     final credential = GoogleAuthProvider.credential(
       accessToken: googleAuth?.accessToken,
       idToken: googleAuth?.idToken,
