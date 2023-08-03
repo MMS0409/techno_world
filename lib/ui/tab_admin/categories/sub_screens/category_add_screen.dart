@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 import '../../../../data/models/category/category_model.dart';
 import '../../../../providers/category_provider.dart';
-import '../../../../utils/colors/app_colors.dart';
 import '../../../auth/widgets/global_button.dart';
 import '../../../auth/widgets/global_text_fields.dart';
 
@@ -74,9 +74,7 @@ class _CategoryAddScreenState extends State<CategoryAddScreen> {
                         keyboardType: TextInputType.emailAddress,
                         textInputAction: TextInputAction.next,
                         textAlign: TextAlign.start,
-                        controller: context
-                            .read<CategoryProvider>()
-                            .categoryDescController),
+                        controller: context.read<CategoryProvider>().categoryDescController),
                   ),
                   const SizedBox(height: 24),
                   SizedBox(
@@ -89,9 +87,7 @@ class _CategoryAddScreenState extends State<CategoryAddScreen> {
                       style: TextButton.styleFrom(
                           backgroundColor: Theme.of(context).indicatorColor),
                       child: context
-                              .watch<CategoryProvider>()
-                              .categoryUrl
-                              .isEmpty
+                              .watch<CategoryProvider>().categoryUrl.isEmpty
                           ? const Text(
                               "Image Not Selected",
                               style: TextStyle(color: Colors.black),
@@ -135,9 +131,9 @@ class _CategoryAddScreenState extends State<CategoryAddScreen> {
         return Container(
           padding: const EdgeInsets.all(24),
           height: 200,
-          decoration: BoxDecoration(
-            color: AppColors.c_162023,
-            borderRadius: const BorderRadius.only(
+          decoration: const BoxDecoration(
+            color: Colors.black,
+            borderRadius: BorderRadius.only(
               topLeft: Radius.circular(16),
               topRight: Radius.circular(16),
             ),
@@ -149,16 +145,16 @@ class _CategoryAddScreenState extends State<CategoryAddScreen> {
                   _getFromCamera();
                   Navigator.pop(context);
                 },
-                leading: const Icon(Icons.camera_alt),
-                title: const Text("Select from Camera"),
+                leading: const Icon(Icons.camera_alt,color: Colors.white,),
+                title: Text("Select from Camera",style: TextStyle(color: Colors.white,fontSize: 20.sp),),
               ),
               ListTile(
                 onTap: () {
                   _getFromGallery();
                   Navigator.pop(context);
                 },
-                leading: const Icon(Icons.photo),
-                title: const Text("Select from Gallery"),
+                leading: const Icon(Icons.photo,color: Colors.white,),
+                title: Text("Select from Gallery",style: TextStyle(color: Colors.white,fontSize: 20.sp)),
               )
             ],
           ),
@@ -174,11 +170,8 @@ class _CategoryAddScreenState extends State<CategoryAddScreen> {
       maxWidth: 512,
     );
 
-    if (xFile != null) {
-      print("VBNKM<");
-     await Provider.of<CategoryProvider>(context,listen: false)
-          .uploadCategoryImage(context, xFile);
-
+    if (xFile != null && context.mounted) {
+     await Provider.of<CategoryProvider>(context,listen: false).uploadCategoryImage(context, xFile);
     }
   }
 
@@ -188,7 +181,7 @@ class _CategoryAddScreenState extends State<CategoryAddScreen> {
       maxHeight: 512,
       maxWidth: 512,
     );
-    if (xFile != null) {
+    if (xFile != null && context.mounted) {
       await Provider.of<CategoryProvider>(context,listen: false)
           .uploadCategoryImage(context, xFile);
     }

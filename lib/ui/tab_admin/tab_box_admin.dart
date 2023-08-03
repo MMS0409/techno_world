@@ -33,16 +33,15 @@ class _TabBoxAdminState extends State<TabBoxAdmin> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: screens[currentIndex],
-      bottomNavigationBar: CurvedNavigationBar(
-        backgroundColor: Colors.white,
-        color:const Color(0xFF000000),
-        buttonBackgroundColor: const Color(0xFF000000),
-        height: 75,
-        items: const <Widget>[
-          Icon(Icons.device_hub, size: 30, color: Colors.white),
-          Icon(Icons.category_outlined, size: 30, color: Colors.white),
-          Icon(Icons.person, size: 30, color: Colors.white),
+
+      bottomNavigationBar: BottomNavigationBar(
+        items: const [
+          BottomNavigationBarItem(icon: Icon(Icons.home, size: 30, color: Colors.white),label: ''),
+          BottomNavigationBarItem(icon: Icon(Icons.category_outlined, size: 30, color: Colors.white),label: ''),
+          BottomNavigationBarItem(icon: Icon(Icons.person, size: 30, color: Colors.white),label: ''),
+
         ],
+        currentIndex: currentIndex,
         onTap: (index) {
           setState(() {
             currentIndex = index;
