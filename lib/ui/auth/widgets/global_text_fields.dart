@@ -41,6 +41,7 @@ class _GlobalTextFieldState extends State<GlobalTextField> {
           fontWeight: FontWeight.w600,
           color: AppColors.c_0C1A30,
           fontFamily: "Montserrat"),
+      maxLines: widget.maxlines,
       textAlign: widget.textAlign,
       textInputAction: widget.textInputAction,
       keyboardType: widget.keyboardType,
@@ -49,21 +50,21 @@ class _GlobalTextFieldState extends State<GlobalTextField> {
       decoration: InputDecoration(
         suffixIcon: widget.obscureText
             ? IconButton(
-          splashRadius: 1,
-          onPressed: () {
-            setState(() {
-              isSee = !isSee;
-            });
-          },
-          icon: Icon(isSee
-              ? Icons.remove_red_eye
-              : CupertinoIcons.eye_slash_fill),
-          color: AppColors.c_111015,
-        )
+                splashRadius: 1,
+                onPressed: () {
+                  setState(() {
+                    isSee = !isSee;
+                  });
+                },
+                icon: Icon(isSee
+                    ? Icons.remove_red_eye
+                    : CupertinoIcons.eye_slash_fill),
+                color: AppColors.c_111015,
+              )
             : Icon(
-          widget.icon,
-          color: AppColors.c_111015,
-        ),
+                widget.icon,
+                color: AppColors.c_111015,
+              ),
         filled: true,
         fillColor: AppColors.white,
         hintText: widget.hintText,

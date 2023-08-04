@@ -5,7 +5,6 @@ import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
-
 import '../../../../providers/profiles_provider.dart';
 import '../../../../utils/colors/app_colors.dart';
 import '../../../auth/widgets/global_text_fields.dart';
@@ -29,7 +28,7 @@ class _EditProfileState extends State<EditProfile> {
       final imageTemp = File(image.path);
       setState(() => this.image = imageTemp);
     } on PlatformException catch (e) {
-      print('Failed to pick image: $e');
+      debugPrint('Failed to pick image: $e');
     }
   }
 
@@ -51,7 +50,7 @@ class _EditProfileState extends State<EditProfile> {
 
       return downloadURL;
     } catch (e) {
-      print('Error uploading image: $e');
+      debugPrint('Error uploading image: $e');
       return null;
     }
   }

@@ -1,7 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
-import '../../../../utils/shimmer_photo.dart';
+import '../../../../utils/ui_utils/shimmer_photo.dart';
 
 class ShowPhoto extends StatelessWidget {
   const ShowPhoto({super.key, required this.image});

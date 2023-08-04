@@ -4,14 +4,16 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:techno_world/data/firebase/auth_service.dart';
 import 'package:techno_world/data/firebase/category_service.dart';
+import 'package:techno_world/data/firebase/orders_service.dart';
 import 'package:techno_world/providers/auth_provider.dart';
 import 'package:techno_world/providers/category_provider.dart';
+import 'package:techno_world/providers/order_provider.dart';
 import 'package:techno_world/providers/products_provider.dart';
 import 'package:techno_world/providers/profiles_provider.dart';
 import 'package:techno_world/splash/splash_screen.dart';
 import 'package:techno_world/ui/route/routes.dart';
-import 'package:techno_world/utils/theme.dart';
-import 'data/firebase/prodycts_service.dart';
+import 'package:techno_world/utils/ui_utils/theme.dart';
+import 'data/firebase/products_service.dart';
 import 'data/firebase/profile_service.dart';
 
 Future<void> main() async {
@@ -36,6 +38,11 @@ Future<void> main() async {
         ChangeNotifierProvider(
           create: (context) =>
               ProfileProvider(profileService: ProfileService()),
+          lazy: true,
+        ),
+        ChangeNotifierProvider(
+          create: (context) =>
+              OrderProvider(orderService: OrderService()),
           lazy: true,
         ),
       ],

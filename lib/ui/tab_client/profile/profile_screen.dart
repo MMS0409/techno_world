@@ -5,7 +5,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import '../../../providers/auth_provider.dart';
 import '../../../providers/profiles_provider.dart';
-import '../../../utils/shimmer_photo.dart';
+import '../../../utils/ui_utils/shimmer_photo.dart';
 import '../../route/route_names.dart';
 
 class ProfileScreen extends StatelessWidget {

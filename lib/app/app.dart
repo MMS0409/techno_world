@@ -5,7 +5,7 @@ import '../providers/auth_provider.dart';
 import '../ui/auth/auth_screen.dart';
 import '../ui/tab_admin/tab_box_admin.dart';
 import '../ui/tab_client/tab_box_client.dart';
-import '../utils/constants.dart';
+import '../utils/ui_utils/constants.dart';
 
 class App extends StatelessWidget {
   const App({super.key});

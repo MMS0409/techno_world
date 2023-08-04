@@ -1,14 +1,12 @@
-import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
-
 import '../../../../data/models/category/category_model.dart';
 import '../../../../data/models/product/product_model.dart';
 import '../../../../providers/category_provider.dart';
 import '../../../../providers/products_provider.dart';
 import '../../../../utils/colors/app_colors.dart';
-import '../../../../utils/constants.dart';
 import '../../../auth/widgets/global_button.dart';
 import '../../../auth/widgets/global_text_fields.dart';
 
@@ -23,7 +21,6 @@ class ProductAddScreen extends StatefulWidget {
 
 class _ProductAddScreenState extends State<ProductAddScreen> {
   ImagePicker picker = ImagePicker();
-  String imagePath = defaultImageConstant;
   String currency = "";
 
   List<String> currencies = ["UZS", "USD", "RUB"];
@@ -35,7 +32,7 @@ class _ProductAddScreenState extends State<ProductAddScreen> {
   Widget build(BuildContext context) {
     return WillPopScope(
       onWillPop: () async {
-        Provider.of<ProductsProvider>(context, listen: false);
+        Provider.of<ProductsProvider>(context, listen: false).clearParameters();
         return true;
       },
       child: Scaffold(
@@ -65,20 +62,19 @@ class _ProductAddScreenState extends State<ProductAddScreen> {
                       keyboardType: TextInputType.emailAddress,
                       textInputAction: TextInputAction.next,
                       textAlign: TextAlign.start,
-                      controller: context
-                          .read<ProductsProvider>()
-                          .productNameController, maxlines: 1,),
+                      controller: context.read<ProductsProvider>().productNameController, maxlines: 1,),
                   const SizedBox(height: 24),
                   SizedBox(
                     height: 200,
                     child: GlobalTextField(
+                        maxlines: 100,
                         hintText: "Description",
                         keyboardType: TextInputType.text,
                         textInputAction: TextInputAction.next,
                         textAlign: TextAlign.start,
                         controller: context
                             .read<ProductsProvider>()
-                            .productDescController, maxlines: 100,),
+                            .productDescController),
                   ),
                   const SizedBox(height: 24),
                   GlobalTextField(
@@ -87,7 +83,7 @@ class _ProductAddScreenState extends State<ProductAddScreen> {
                     textInputAction: TextInputAction.next,
                     textAlign: TextAlign.start,
                     controller:
-                        context.read<ProductsProvider>().productCountController, maxlines: 1,
+                    context.read<ProductsProvider>().productCountController, maxlines: 1,
                   ),
                   const SizedBox(height: 24),
                   GlobalTextField(
@@ -96,7 +92,7 @@ class _ProductAddScreenState extends State<ProductAddScreen> {
                     textInputAction: TextInputAction.next,
                     textAlign: TextAlign.start,
                     controller:
-                        context.read<ProductsProvider>().productPriceController, maxlines: 1,
+                    context.read<ProductsProvider>().productPriceController, maxlines: 1,
                   ),
                   const SizedBox(height: 24),
                   DropdownButton(
@@ -129,50 +125,50 @@ class _ProductAddScreenState extends State<ProductAddScreen> {
                       if (snapshot.hasData) {
                         return snapshot.data!.isNotEmpty
                             ? SizedBox(
-                                height: 100,
-                                child: ListView(
-                                  scrollDirection: Axis.horizontal,
-                                  children: List.generate(
-                                    snapshot.data!.length,
-                                    (index) {
-                                      CategoryModel categoryModel =
-                                          snapshot.data![index];
-                                      return GestureDetector(
-                                        onTap: () {
-                                          setState(() {
-                                            selectedCategoryId =
-                                                categoryModel.categoryId;
-                                          });
-                                        },
-                                        child: Container(
-                                          decoration: BoxDecoration(
-                                            borderRadius:
-                                                BorderRadius.circular(16),
-                                            color: selectedCategoryId ==
-                                                    categoryModel.categoryId
-                                                ? Colors.green
-                                                : Colors.white,
-                                          ),
-                                          height: 100,
-                                          margin: const EdgeInsets.all(16),
-                                          padding: const EdgeInsets.all(16),
-                                          child: Center(
-                                            child: Text(
-                                              categoryModel.categoryName,
-                                              style: TextStyle(
-                                                color: selectedCategoryId ==
-                                                        categoryModel.categoryId
-                                                    ? Colors.white
-                                                    : Colors.black,
-                                              ),
-                                            ),
-                                          ),
+                          height: 100,
+                          child: ListView(
+                            scrollDirection: Axis.horizontal,
+                            children: List.generate(
+                              snapshot.data!.length,
+                                  (index) {
+                                CategoryModel categoryModel =
+                                snapshot.data![index];
+                                return GestureDetector(
+                                  onTap: () {
+                                    setState(() {
+                                      selectedCategoryId =
+                                          categoryModel.categoryId;
+                                    });
+                                  },
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                      borderRadius:
+                                      BorderRadius.circular(16),
+                                      color: selectedCategoryId ==
+                                          categoryModel.categoryId
+                                          ? Colors.green
+                                          : Colors.white,
+                                    ),
+                                    height: 100,
+                                    margin: const EdgeInsets.all(16),
+                                    padding: const EdgeInsets.all(16),
+                                    child: Center(
+                                      child: Text(
+                                        categoryModel.categoryName,
+                                        style: TextStyle(
+                                          color: selectedCategoryId ==
+                                              categoryModel.categoryId
+                                              ? Colors.white
+                                              : Colors.black,
                                         ),
-                                      );
-                                    },
+                                      ),
+                                    ),
                                   ),
-                                ),
-                              )
+                                );
+                              },
+                            ),
+                          ),
+                        )
                             : const Center(child: Text("Empty!"));
                       }
                       if (snapshot.hasError) {
@@ -184,25 +180,69 @@ class _ProductAddScreenState extends State<ProductAddScreen> {
                     },
                   ),
                   const SizedBox(height: 24),
-                  SizedBox(
-                    width: 150,
-                    height: 150,
+                  context.watch<ProductsProvider>().uploadedImagesUrls.isEmpty
+                      ? TextButton(
+                    onPressed: () {
+                      showBottomSheetDialog();
+                    },
+                    style: TextButton.styleFrom(
+                        backgroundColor:
+                        Theme.of(context).indicatorColor),
+                    child: const Text(
+                      "Select Image",
+                      style: TextStyle(color: Colors.black),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  )
+                      : SizedBox(
+                    height: 100,
+                    child: ListView(
+                      scrollDirection: Axis.horizontal,
+                      children: [
+                        ...List.generate(
+                            context
+                                .watch<ProductsProvider>()
+                                .uploadedImagesUrls
+                                .length, (index) {
+                          String singleImage = context
+                              .watch<ProductsProvider>()
+                              .uploadedImagesUrls[index];
+                          return Container(
+                            padding: const EdgeInsets.all(5),
+                            margin: const EdgeInsets.all(5),
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                            child: Image.network(
+                              singleImage,
+                              width: 80,
+                              height: 80,
+                              fit: BoxFit.fill,
+                            ),
+                          );
+                        })
+                      ],
+                    ),
+                  ),
+
+                  Visibility(
+                    visible: context.watch<ProductsProvider>().uploadedImagesUrls.isNotEmpty,
                     child: TextButton(
                       onPressed: () {
                         showBottomSheetDialog();
                       },
                       style: TextButton.styleFrom(
-                          backgroundColor: Theme.of(context).indicatorColor),
-                      child: imagePath == defaultImageConstant
-                          ? Text(
-                              imagePath,
-                              style: const TextStyle(color: Colors.black),
-                              maxLines: 1,
-                              overflow: TextOverflow.ellipsis,
-                            )
-                          : Image.file(File(imagePath)),
-                    ),
-                  ),
+                          backgroundColor:
+                          Theme.of(context).indicatorColor),
+                      child: const Text(
+                        "Select Image",
+                        style: TextStyle(color: Colors.black),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ),),
+
                   const SizedBox(height: 24),
                 ],
               ),
@@ -212,14 +252,16 @@ class _ProductAddScreenState extends State<ProductAddScreen> {
                     ? "Add product"
                     : "Update product",
                 onTap: () {
-                  if (imagePath != defaultImageConstant &&
+                  if (context
+                      .read<ProductsProvider>()
+                      .uploadedImagesUrls
+                      .isNotEmpty &&
                       selectedCategoryId.isNotEmpty) {
                     context.read<ProductsProvider>().addProduct(
-                          context: context,
-                          imageUrls: [imagePath],
-                          categoryId: selectedCategoryId,
-                          productCurrency: selectedCurrency,
-                        );
+                      context: context,
+                      categoryId: selectedCategoryId,
+                      productCurrency: selectedCurrency,
+                    );
                   } else {
                     ScaffoldMessenger.of(context).showSnackBar(
                       const SnackBar(
@@ -256,9 +298,9 @@ class _ProductAddScreenState extends State<ProductAddScreen> {
         return Container(
           padding: const EdgeInsets.all(24),
           height: 200,
-          decoration: BoxDecoration(
-            color: AppColors.c_162023,
-            borderRadius: const BorderRadius.only(
+          decoration: const BoxDecoration(
+            color: Colors.black,
+            borderRadius: BorderRadius.only(
               topLeft: Radius.circular(16),
               topRight: Radius.circular(16),
             ),
@@ -267,19 +309,19 @@ class _ProductAddScreenState extends State<ProductAddScreen> {
             children: [
               ListTile(
                 onTap: () {
-                  _getFromCamera();
-                  Navigator.pop(context);
-                },
-                leading: const Icon(Icons.camera_alt),
-                title: const Text("Select from Camera"),
-              ),
-              ListTile(
-                onTap: () {
                   _getFromGallery();
                   Navigator.pop(context);
                 },
-                leading: const Icon(Icons.photo),
-                title: const Text("Select from Gallery"),
+                leading: const Icon(Icons.photo,color: Colors.white,),
+                title: Text("Select from Gallery",style: TextStyle(color: Colors.white,fontSize: 20.sp)),
+              ),
+              ListTile(
+                onTap: () {
+                  _getFromCamera();
+                  Navigator.pop(context);
+                },
+                leading: const Icon(Icons.photo_camera,color: Colors.white,),
+                title: Text("Select from Camera",style: TextStyle(color: Colors.white,fontSize: 20.sp)),
               )
             ],
           ),
@@ -288,29 +330,30 @@ class _ProductAddScreenState extends State<ProductAddScreen> {
     );
   }
 
-  Future<void> _getFromCamera() async {
-    XFile? xFile = await picker.pickImage(
-      source: ImageSource.camera,
+  Future<void> _getFromGallery() async {
+    List<XFile?> xFiles = await picker.pickMultiImage(
       maxHeight: 512,
       maxWidth: 512,
     );
-    if (xFile != null) {
-      setState(() {
-        imagePath = xFile.path;
-      });
+    if(context.mounted) {
+      await Provider.of<ProductsProvider>(context, listen: false)
+        .uploadProductImages(
+      context: context,
+      images: xFiles,
+    );
     }
   }
-
-  Future<void> _getFromGallery() async {
-    XFile? xFile = await picker.pickImage(
-      source: ImageSource.gallery,
+  Future<void> _getFromCamera() async {
+    List<XFile?> xFile = [await picker.pickImage(source: ImageSource.camera,
       maxHeight: 512,
       maxWidth: 512,
+    )];
+    if(context.mounted) {
+      await Provider.of<ProductsProvider>(context, listen: false)
+        .uploadProductImages(
+      context: context,
+      images: xFile,
     );
-    if (xFile != null) {
-      setState(() {
-        imagePath = xFile.path;
-      });
     }
   }
 }
