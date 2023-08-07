@@ -1,4 +1,6 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../../data/models/category/category_model.dart';
 
 
@@ -14,6 +16,9 @@ class CategoryItemView extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: Container(
+      margin: const EdgeInsets.all(5),
+      padding: const EdgeInsets.all(7),
+
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(4),
           color: selectedId ==
@@ -21,19 +26,29 @@ class CategoryItemView extends StatelessWidget {
               ? Colors.black
               : Colors.white,
         ),
-        height: 50,
-        margin: const EdgeInsets.all(5),
-        padding: const EdgeInsets.all(10),
-        child: Center(
-          child: Text(
-            categoryModel.categoryName,
-            style: TextStyle(
+        child: Column(
+          children: [
+            Container(
+
+              height: 50.h,
+              width: 60.w,
+
+              child: Center(
+                child: CachedNetworkImage(
+                imageUrl: categoryModel.imageUrl,
+                ),
+              )
+
+            ),
+            SizedBox(height: 5.h,),
+            Text(categoryModel.categoryName,style: TextStyle(
               color: selectedId ==
                   categoryModel.categoryId
                   ? Colors.white
                   : Colors.black,
-            ),
-          ),
+            ),)
+
+          ],
         ),
       ),
     );

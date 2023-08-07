@@ -138,35 +138,42 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                   ],
                 ),
 
-                Text(
-                  "Total price: ${productModel.price * count}.   ${productModel.currency}",
-                  style: const TextStyle(
-                      fontSize: 18,
-                      color: Colors.black,
-                      fontWeight: FontWeight.w600),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      "${productModel.price * count}.   ${productModel.currency}",
+                      style: const TextStyle(
+                          fontSize: 18,
+                          color: Colors.black,
+                          fontWeight: FontWeight.w600),
+                    ),
+
+                    GlobalButton(
+                      onTap: () {
+                        Provider.of<OrderProvider>(context, listen: false).addOrder(
+                          context: context,
+                          orderModel: OrderModel(
+                            count: count,
+                            totalPrice: productModel.price * count,
+                            orderId: "",
+                            productId: productModel.productId,
+                            userId: FirebaseAuth.instance.currentUser!.uid,
+                            orderStatus: "ordered",
+                            createdAt: DateTime.now().toString(),
+                            productName: productModel.productName,
+                          ),
+                        );
+                      },
+                      title: "Add to Card",
+                    )
+                  ],
                 ),
-                const SizedBox(height: 20,)
+
               ],
             ),
           ),
-          GlobalButton(
-            onTap: () {
-              Provider.of<OrderProvider>(context, listen: false).addOrder(
-                context: context,
-                orderModel: OrderModel(
-                  count: count,
-                  totalPrice: productModel.price * count,
-                  orderId: "",
-                  productId: productModel.productId,
-                  userId: FirebaseAuth.instance.currentUser!.uid,
-                  orderStatus: "ordered",
-                  createdAt: DateTime.now().toString(),
-                  productName: productModel.productName,
-                ),
-              );
-            },
-            title: "Add to Card",
-          )
+
         ],
       ),
     );
