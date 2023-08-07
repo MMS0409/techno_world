@@ -15,6 +15,7 @@ class AppTheme {
   );
 
   static ThemeData myTheme = ThemeData(
+    // useMaterial3: true,
     bottomNavigationBarTheme: BottomNavigationBarThemeData(
       type: BottomNavigationBarType.fixed,
       selectedIconTheme: IconThemeData(size: 30.sp),
