@@ -1,6 +1,8 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:techno_world/ui/tab_client/products/widgets/category_item_view.dart';
 import 'package:techno_world/ui/tab_client/products/widgets/product_detail.dart';
@@ -26,7 +28,7 @@ class _ProductsScreenState extends State<ProductsScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Products Client"),
+        title:  Text("Hi ${FirebaseAuth.instance.currentUser!.displayName!}"),
       ),
       body: Column(
         children: [
@@ -37,25 +39,40 @@ class _ProductsScreenState extends State<ProductsScreen> {
               if (snapshot.hasData) {
                 return snapshot.data!.isNotEmpty
                     ? SizedBox(
-                        height: 50,
+                        height: 100.h,
                         width: MediaQuery.of(context).size.width,
                         child: ListView(
                           scrollDirection: Axis.horizontal,
                           children: [
-                            CategoryItemView(
-                              categoryModel: CategoryModel(
-                                categoryId: "",
-                                description: "",
-                                categoryName: "All",
-                                imageUrl: "",
-                                createdAt: "",
-                              ),
-                              onTap: () {
+                            InkWell(
+                              onTap: (){
                                 setState(() {
-                                  selectedCategoryId = "";
+                                  selectedCategoryId='';
                                 });
                               },
-                              selectedId: selectedCategoryId,
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(4),
+                                    color:selectedCategoryId == ""? Colors.black:Colors.yellowAccent),
+
+
+                                height: 50.h,
+                                width: 60.w,
+                                margin: const EdgeInsets.all(5),
+                                padding: const EdgeInsets.all(10),
+                                child: Center(
+                                  child: Container(
+                                    height: 50.h,
+                                    width: 60.w,
+                                    decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(9)
+                                      ,
+
+                                    ),
+                                    child: Center(child: Text("All",style: TextStyle(color: selectedCategoryId == ""? Colors.white:Colors.black),)),
+                                  ),
+                                ),
+                              ),
                             ),
                             ...List.generate(
                               snapshot.data!.length,
@@ -112,7 +129,7 @@ class _ProductsScreenState extends State<ProductsScreen> {
                                                 crossAxisCount: 2,
                                                 mainAxisSpacing: 10,
                                                 crossAxisSpacing: 10,
-                                                childAspectRatio: 0.6),
+                                                childAspectRatio: 0.65),
                                         children: [
                                           ...List.generate(
                                               snapshot.data!.length, (index) {
@@ -133,32 +150,18 @@ class _ProductsScreenState extends State<ProductsScreen> {
                                                 );
                                               },
                                               child: Container(
+                                                width: 155.w,
+                                                height: 230.h,
                                                 decoration: BoxDecoration(
                                                     borderRadius: BorderRadius.circular(16),
-                                                    color: Colors.black),
+                                                    color: Color(0xffDADADA80).withOpacity(0.5)),
                                                 child: Column(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment.start,
+                                                  // mainAxisAlignment:
+                                                  //     MainAxisAlignment.start,
                                                   crossAxisAlignment:
-                                                      CrossAxisAlignment.center,
+                                                      CrossAxisAlignment.end,
                                                   children: [
-                                                    Hero(
-                                                      tag: index,
-                                                      child: ClipRRect(
-                                                        borderRadius:
-                                                            const BorderRadius.only(topRight: Radius.circular(16),topLeft: Radius.circular(16)),
-                                                        child: CachedNetworkImage(
-                                                          height: 160,
-                                                          width: 175,
-                                                          fit: BoxFit.fill,
-                                                          imageUrl: productModel.productImages.first,
-                                                          placeholder: (context, url) =>
-                                                              const ShimmerPhoto(),
-                                                          errorWidget: (context, url, error) => const Icon(
-                                                                  Icons.error,color: Colors.red,),
-                                                        ),
-                                                      ),
-                                                    ),
+
                                                     const SizedBox(height: 5),
                                                     Column(
                                                       crossAxisAlignment:
@@ -177,17 +180,6 @@ class _ProductsScreenState extends State<ProductsScreen> {
                                                                       .w700),
                                                         ),
                                                         const SizedBox(height: 5),
-                                                        Text(
-                                                          productModel
-                                                              .description,
-                                                          style: const TextStyle(
-                                                              fontSize: 18,
-                                                              color:
-                                                                  Colors.white,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .w500),
-                                                        ),
                                                         const SizedBox(
                                                             height: 5),
                                                         Text(
@@ -212,6 +204,25 @@ class _ProductsScreenState extends State<ProductsScreen> {
                                                                   FontWeight
                                                                       .w500),
                                                         ),
+                                                        SizedBox(height: 13.h,),
+                                                        Hero(
+                                                          tag: index,
+                                                          child: ClipRRect(
+                                                            borderRadius:
+                                                             BorderRadius.circular((16)),
+                                                            child: CachedNetworkImage(
+                                                              height: 160,
+                                                              width: 175,
+                                                              fit: BoxFit.fill,
+                                                              imageUrl: productModel.productImages.first,
+                                                              placeholder: (context, url) =>
+                                                              const ShimmerPhoto(),
+                                                              errorWidget: (context, url, error) => const Icon(
+                                                                Icons.error,color: Colors.red,),
+                                                            ),
+                                                          ),
+                                                        ),
+
                                                       ],
                                                     ),
                                                   ],
