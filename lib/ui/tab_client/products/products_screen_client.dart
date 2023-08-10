@@ -113,144 +113,140 @@ class _ProductsScreenState extends State<ProductsScreen> {
               if (snapshot.hasData) {
                 return snapshot.data!.isNotEmpty
                     ? Expanded(
-                        child: Padding(
-                          padding: const EdgeInsets.all(18.0),
-                          child: StreamBuilder<List<ProductModel>>(
-                            stream: context
-                                .read<ProductsProvider>()
-                                .getProducts(selectedCategoryId),
-                            builder: (BuildContext context,
-                                AsyncSnapshot<List<ProductModel>> snapshot) {
-                              if (snapshot.hasData) {
-                                return snapshot.data!.isNotEmpty
-                                    ? GridView(
-                                        gridDelegate:
-                                            const SliverGridDelegateWithFixedCrossAxisCount(
-                                                crossAxisCount: 2,
-                                                mainAxisSpacing: 10,
-                                                crossAxisSpacing: 10,
-                                                childAspectRatio: 0.65),
-                                        children: [
-                                          ...List.generate(
-                                              snapshot.data!.length, (index) {
-                                            ProductModel productModel =
-                                                snapshot.data![index];
-                                            return ZoomTapAnimation(
-                                              onTap: () {
-                                                Navigator.push(
-                                                  context,
-                                                  MaterialPageRoute(
-                                                    builder: (context) =>
-                                                        ProductDetailScreen(
-                                                            argumentsList: [
-                                                          productModel,
-                                                          index,
-                                                        ]),
-                                                  ),
-                                                );
-                                              },
-                                              child: Container(
-                                                width: 155.w,
-                                                height: 230.h,
-                                                decoration: BoxDecoration(
-                                                    borderRadius: BorderRadius.circular(16),
-                                                    color: Color(0xffDADADA80).withOpacity(0.5)),
-                                                child: Column(
-                                                  // mainAxisAlignment:
-                                                  //     MainAxisAlignment.start,
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.end,
-                                                  children: [
+                        child: StreamBuilder<List<ProductModel>>(
+                          stream: context
+                              .read<ProductsProvider>()
+                              .getProducts(selectedCategoryId),
+                          builder: (BuildContext context,
+                              AsyncSnapshot<List<ProductModel>> snapshot) {
+                            if (snapshot.hasData) {
+                              return snapshot.data!.isNotEmpty
+                                  ? GridView(padding: EdgeInsets.all(18),
+                                      gridDelegate:
+                                          const SliverGridDelegateWithFixedCrossAxisCount(
+                                              crossAxisCount: 2,
+                                              mainAxisSpacing: 10,
+                                              crossAxisSpacing: 10,
+                                              childAspectRatio: 0.65),
+                                      children: [
+                                        ...List.generate(
+                                            snapshot.data!.length, (index) {
+                                          ProductModel productModel =
+                                              snapshot.data![index];
+                                          return ZoomTapAnimation(
+                                            onTap: () {
+                                              Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      ProductDetailScreen(
+                                                          argumentsList: [
+                                                        productModel,
+                                                        index,
+                                                      ]),
+                                                ),
+                                              );
+                                            },
+                                            child: Container(
+                                              width: 155.w,
+                                              height: 230.h,
+                                              decoration: BoxDecoration(
+                                                  borderRadius: BorderRadius.circular(16),
+                                                  color: Colors.grey),
+                                              child: Column(
+                                                // mainAxisAlignment:
+                                                //     MainAxisAlignment.start,
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.end,
+                                                children: [
 
-                                                    const SizedBox(height: 5),
-                                                    Column(
-                                                      crossAxisAlignment:
-                                                          CrossAxisAlignment
-                                                              .center,
-                                                      children: [
-                                                        Text(
-                                                          productModel
-                                                              .productName,
-                                                          style: const TextStyle(
-                                                              fontSize: 22,
-                                                              color:
-                                                                  Colors.white,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .w700),
-                                                        ),
-                                                        const SizedBox(height: 5),
-                                                        const SizedBox(
-                                                            height: 5),
-                                                        Text(
-                                                          "Price: ${productModel.price} ${productModel.currency}",
-                                                          style: const TextStyle(
-                                                              fontSize: 18,
-                                                              color:
-                                                                  Colors.white,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .w500),
-                                                        ),
-                                                        const SizedBox(
-                                                            height: 5),
-                                                        Text(
-                                                          "Count: ${productModel.count}",
-                                                          style: const TextStyle(
-                                                              fontSize: 18,
-                                                              color:
-                                                                  Colors.white,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .w500),
-                                                        ),
-                                                        SizedBox(height: 13.h,),
-                                                        Hero(
-                                                          tag: index,
-                                                          child: ClipRRect(
-                                                            borderRadius:
-                                                             BorderRadius.circular((16)),
-                                                            child: CachedNetworkImage(
-                                                              height: 160,
-                                                              width: 175,
-                                                              fit: BoxFit.fill,
-                                                              imageUrl: productModel.productImages.first,
-                                                              placeholder: (context, url) =>
-                                                              const ShimmerPhoto(),
-                                                              errorWidget: (context, url, error) => const Icon(
-                                                                Icons.error,color: Colors.red,),
-                                                            ),
+                                                  const SizedBox(height: 5),
+                                                  Column(
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .center,
+                                                    children: [
+                                                      Text(
+                                                        productModel
+                                                            .productName,
+                                                        style: const TextStyle(
+                                                            fontSize: 22,
+                                                            color:
+                                                                Colors.white,
+                                                            fontWeight:
+                                                                FontWeight
+                                                                    .w700),
+                                                      ),
+                                                      const SizedBox(height: 5),
+                                                      const SizedBox(
+                                                          height: 5),
+                                                      Text(
+                                                        "Price: ${productModel.price} ${productModel.currency}",
+                                                        style: const TextStyle(
+                                                            fontSize: 18,
+                                                            color:
+                                                                Colors.white,
+                                                            fontWeight:
+                                                                FontWeight
+                                                                    .w500),
+                                                      ),
+                                                      const SizedBox(
+                                                          height: 5),
+                                                      Text(
+                                                        "Count: ${productModel.count}",
+                                                        style: const TextStyle(
+                                                            fontSize: 18,
+                                                            color:
+                                                                Colors.white,
+                                                            fontWeight:
+                                                                FontWeight
+                                                                    .w500),
+                                                      ),
+                                                      SizedBox(height: 13.h,),
+                                                      Hero(
+                                                        tag: index,
+                                                        child: ClipRRect(
+                                                          borderRadius: const BorderRadius.only(bottomLeft: Radius.circular(16),bottomRight: Radius.circular(16)),
+                                                          child: CachedNetworkImage(
+                                                            height: 172.h,
+                                                            width: 175.w,
+                                                            fit: BoxFit.fill,
+                                                            imageUrl: productModel.productImages.first,
+                                                            placeholder: (context, url) =>
+                                                            const ShimmerPhoto(),
+                                                            errorWidget: (context, url, error) => const Icon(
+                                                              Icons.error,color: Colors.red,),
                                                           ),
                                                         ),
+                                                      ),
 
-                                                      ],
-                                                    ),
-                                                  ],
-                                                ),
+                                                    ],
+                                                  ),
+                                                ],
                                               ),
-                                            );
-                                          })
-                                        ],
-                                      )
-                                    : const Center(
-                                        child: Text(
-                                          "Product Empty!",
-                                          style: TextStyle(
-                                              fontSize: 32,
-                                              color: Colors.white,
-                                              fontWeight: FontWeight.w700),
-                                        ),
-                                      );
-                              }
-                              if (snapshot.hasError) {
-                                return Center(
-                                  child: Text(snapshot.error.toString()),
-                                );
-                              }
-                              return const Center(
-                                  child: CircularProgressIndicator());
-                            },
-                          ),
+                                            ),
+                                          );
+                                        })
+                                      ],
+                                    )
+                                  : const Center(
+                                      child: Text(
+                                        "Product Empty!",
+                                        style: TextStyle(
+                                            fontSize: 32,
+                                            color: Colors.white,
+                                            fontWeight: FontWeight.w700),
+                                      ),
+                                    );
+                            }
+                            if (snapshot.hasError) {
+                              return Center(
+                                child: Text(snapshot.error.toString()),
+                              );
+                            }
+                            return const Center(
+                                child: CircularProgressIndicator());
+                          },
                         ),
                       )
                     : const Center(child: Text("Product Empty!"));
